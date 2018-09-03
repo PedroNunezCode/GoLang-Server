@@ -4,16 +4,16 @@ import(
 	"fmt"
 	"github.com/labstack/echo"
 	"net/http"
+	"github.com/gin-gonic/contrib/static"
+	"github.com/gin-gonic/gin"
 )
 
 func main(){
-	fmt.Println("Server is now running")
+	// setting up the router to the default one used by gin
+	router := gin.Default()
+	router.Use(static.Serve("/", static.Localfile("./views", true)))
+	
 
-	server := echo.New()
-	server.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello from the web side")
-	})
-	server.Start(":3000")
-
+	router.run(":3000")
 
 }
